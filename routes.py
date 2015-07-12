@@ -1,12 +1,29 @@
 from flask import Blueprint, request, abort, jsonify
+import foursquare
+
 from config import config
+import secrets
 
 module = Blueprint(config['module_name'], __name__)
 
+client = foursquare.Foursquare(access_token=secrets.FOURSQUARE_ACCESS_TOKEN)
+
 @module.route('/')
-def index():
+def get_checkins():
     if secret_key and secret_key_value:
         val = request.args.get(secret_key)
         if val != secret_key_value:
             abort(403)
-    return {'status': 'ok'}
+    return jsonify(client.users.checkins())
+
+@module.route('/checkin')
+def checkin():
+    if secret_key and secret_key_value:
+        val = request.args.get(secret_key)
+        if val != secret_key_value:
+            abort(403)
+
+    places = request.values.getlist('p')
+    for place in places:
+        client.checkins.add(params={'venueId': place})
+    return jsonify({'status': 'ok', 'places': places})
