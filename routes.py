@@ -23,7 +23,7 @@ def checkin():
         if val != secret_key_value:
             abort(403)
 
-    places = request.values.getlist('p')
+    places = request.args.get('p').split(',')
     for place in places:
         client.checkins.add(params={'venueId': place})
     return jsonify({'status': 'ok', 'places': places})
