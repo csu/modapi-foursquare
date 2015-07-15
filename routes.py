@@ -1,3 +1,5 @@
+import time
+
 from flask import Blueprint, request, abort, jsonify
 import foursquare
 
@@ -26,4 +28,5 @@ def checkin():
     places = request.args.get('p').split(',')
     for place in places:
         client.checkins.add(params={'venueId': place})
+        time.sleep(1)
     return jsonify({'status': 'ok', 'places': places})
