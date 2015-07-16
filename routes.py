@@ -19,6 +19,7 @@ def get_checkins():
     return jsonify(client.users.checkins())
 
 @module.route('/checkin')
+@module.route('/checkin/')
 def checkin():
     if secret_key and secret_key_value:
         val = request.args.get(secret_key)
