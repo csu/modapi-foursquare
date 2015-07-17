@@ -1,3 +1,4 @@
+import thread
 import time
 
 from flask import Blueprint, request, abort, jsonify
@@ -9,6 +10,12 @@ import secrets
 module = Blueprint(config['module_name'], __name__)
 
 client = foursquare.Foursquare(access_token=secrets.FOURSQUARE_ACCESS_TOKEN)
+
+def perform_checkins(places):
+    for place in places:
+        client.checkins.add(params={'venueId': place})
+        time.sleep(1)
+
 
 @module.route('/')
 def get_checkins():
@@ -27,7 +34,5 @@ def checkin():
             abort(403)
 
     places = request.args.get('p').split(',')
-    for place in places:
-        client.checkins.add(params={'venueId': place})
-        time.sleep(1)
+    perform_checkins(places)
     return jsonify({'status': 'ok', 'places': places})
