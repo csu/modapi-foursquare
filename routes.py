@@ -39,7 +39,7 @@ def get_recent():
     latest = [i['venue']['name'] for i in latest]
 
     title = ". ".join(latest)
-    message = "<b>Latest Checkins<b><br>"
+    message = "<b>Latest Checkins</b><br>"
     message += "<br>".join(latest)
 
     notifier.send(message, title=title, source="ModApi")
