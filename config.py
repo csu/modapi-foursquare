@@ -4,6 +4,7 @@ config = {
     'url_prefix': '/foursquare',
     'inject': {
         'secret_key': 'secret_key',
-        'secret_key_value': 'secret_key_value'
+        'secret_key_value': 'secret_key_value',
+        'notifier': 'notifier'
     }
 }
