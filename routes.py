@@ -47,7 +47,11 @@ def get_recent():
 
     latest = client.users.checkins(params={'limit': 3})['checkins']['items']
     latest = [i['venue']['name'] for i in latest]
-    latest = "<br>".join(latest)
-    notifier.send(latest, title="Latest Checkins", source="ModApi")
+
+    title = ". ".join(latest)
+    message = "<b>Latest Checkins<b><br>"
+    message += "<br>".join(latest)
+
+    notifier.send(message, title=title, source="ModApi")
 
     return jsonify({'status': 'ok'})
