@@ -12,7 +12,6 @@ module = Blueprint(config['module_name'], __name__)
 
 client = foursquare.Foursquare(access_token=secrets.FOURSQUARE_ACCESS_TOKEN)
 
-@require_secret
 def perform_checkins(places):
     for place in places:
         client.checkins.add(params={'venueId': place})
