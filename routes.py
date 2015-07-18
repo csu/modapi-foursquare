@@ -14,7 +14,7 @@ client = foursquare.Foursquare(access_token=secrets.FOURSQUARE_ACCESS_TOKEN)
 def perform_checkins(places):
     for place in places:
         client.checkins.add(params={'venueId': place})
-        time.sleep(1)
+        time.sleep(0.5)
 
 
 @module.route('/')
