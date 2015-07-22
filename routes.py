@@ -1,6 +1,3 @@
-import datetime
-import json
-import tempfile
 import time
 
 from flask import Blueprint, request, jsonify
@@ -52,14 +49,7 @@ def get_recent():
 @require_secret
 def backup_all_checkins():
     checkins = [c for c in client.users.all_checkins()]
-
-    temp_file = tempfile.NamedTemporaryFile()
-    temp_file.write(json.dumps(checkins))
-
-    filename = 'foursquare-%s.json' % datetime.date.today()
-    folder = secrets.BACKUP_FOLDER_ID
-    uploader.upload(temp_file.name, title=filename, parent=folder)
-
-    temp_file.close()
+    uploader.quick_upload(checkins, file_prefix='foursquare',
+        folder=secrets.BACKUP_FOLDER_ID)
 
     return jsonify({'status': 'ok', 'checkins': len(checkins)})
