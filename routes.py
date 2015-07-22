@@ -49,6 +49,7 @@ def get_recent():
 
 @module.route('/backup')
 @module.route('/backup/')
+@require_secret
 def backup_all_checkins():
     checkins = [c for c in client.users.all_checkins()]
 
