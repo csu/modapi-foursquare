@@ -1,7 +1,6 @@
 import datetime
 import json
 import tempfile
-import thread
 import time
 
 from flask import Blueprint, request, jsonify
