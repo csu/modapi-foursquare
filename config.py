@@ -3,6 +3,7 @@ config = {
     'module_var': 'module',
     'url_prefix': '/foursquare',
     'inject': {
-        'notifier': 'notifier'
+        'notifier': 'notifier',
+        'uploader': 'uploader'
     }
 }

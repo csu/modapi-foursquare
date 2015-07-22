@@ -1,3 +1,6 @@
+import datetime
+import json
+import tempfile
 import thread
 import time
 
@@ -44,3 +47,19 @@ def get_recent():
     notifier.send(message, title=title, source="ModApi")
 
     return jsonify({'status': 'ok'})
+
+@module.route('/backup')
+@module.route('/backup/')
+def backup_all_checkins():
+    checkins = [c for c in client.users.all_checkins()]
+
+    temp_file = tempfile.NamedTemporaryFile()
+    temp_file.write(json.dumps(checkins))
+
+    filename = 'foursquare-%s.json' % datetime.date.today()
+    folder = secrets.BACKUP_FOLDER_ID
+    uploader.upload(temp_file.name, title=filename, parent=folder)
+
+    temp_file.close()
+
+    return jsonify({'status': 'ok', 'checkins': len(checkins)})
