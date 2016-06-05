@@ -3,6 +3,7 @@ import time
 from flask import Blueprint, request, jsonify
 import foursquare
 
+from backup import backup_all_checkins
 from common import require_secret
 from config import config
 import secrets
@@ -48,8 +49,6 @@ def get_recent():
 @module.route('/backup/')
 @require_secret
 def backup_all_checkins():
-    checkins = [c for c in client.users.all_checkins()]
-    uploader.quick_upload(checkins, file_prefix='foursquare',
-        folder=secrets.BACKUP_FOLDER_ID)
+    checkins = backup_all_checkins(client, uploader)
 
     return jsonify({'status': 'ok', 'checkins': len(checkins)})
